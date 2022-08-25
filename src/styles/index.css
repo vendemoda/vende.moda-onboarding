@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .text-input {
+    @apply rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+  }
+
+  .btn {
+    @apply bg-secondary text-white px-5 py-2 text-center flex justify-center;
+  }
+
+  .btn:disabled {
+    @apply opacity-50;
+  }
+}
