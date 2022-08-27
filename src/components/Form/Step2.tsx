@@ -45,6 +45,7 @@ const Step2: React.FC<Step2Props> = ({ formData, onSuccess }) => {
       });
       setLoading(false);
       swiper.slideNext();
+      window.scrollTo(0, 0);
       onSuccess();
     } catch (error) {
       toastError(error);
