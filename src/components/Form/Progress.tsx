@@ -7,7 +7,7 @@ const Progress: React.FC<{ step: number }> = ({ step = 0 }) => {
     <div className={"scale-90 md:max-w-2xl mx-auto"}>
       <ProgressBar
         percent={step}
-        filledBackground={import.meta.env.VITE_SECONDARY_COLOR}
+        filledBackground={"#9841E2"}
         hasStepZero={true}
       >
         <Step transition="scale">

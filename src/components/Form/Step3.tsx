@@ -29,10 +29,10 @@ const Step3: React.FC<Step3Props> = ({ url }) => {
         <div className="mt-10">
           <p>Acesse seu painel de controle:</p>
           <a
-            href={import.meta.env.VITE_ADMIN_URL}
+            href={"https://painelcatalogo.modacentersantacruz.com.br"}
             className={"btn rounded-lg mt-2"}
           >
-            {import.meta.env.VITE_ADMIN_URL.replace("https://", "")}
+            {"painelcatalogo.modacentersantacruz.com.br"}
           </a>
           <span className="text-gray-500 text-sm">
             Clique para acessar seu painel
