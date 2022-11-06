@@ -4,18 +4,18 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 
 const Progress: React.FC<{ step: number }> = ({ step = 0 }) => {
   return (
-    <div className={"scale-75 md:scale-100"}>
+    <div className={"scale-90 md:max-w-2xl mx-auto"}>
       <ProgressBar
         percent={step}
-        filledBackground="linear-gradient(to right, #00CE92, #0226A5)"
+        filledBackground={import.meta.env.VITE_SECONDARY_COLOR}
         hasStepZero={true}
       >
         <Step transition="scale">
           {({ accomplished }: { accomplished: boolean }) => (
             <div
               className={`${
-                accomplished ? "bg-secondary" : "bg-gray-500"
-              } flex w-8 h-8 md:w-12 md:h-12 items-center justify-center rounded-full text-white font-extrabold`}
+                accomplished ? "bg-secondary" : "bg-gray-300"
+              } flex w-12 h-12 items-center justify-center rounded-full text-white font-bold text-2xl`}
             >
               1
             </div>
@@ -25,8 +25,8 @@ const Progress: React.FC<{ step: number }> = ({ step = 0 }) => {
           {({ accomplished }: { accomplished: boolean }) => (
             <div
               className={`${
-                accomplished ? "bg-secondary" : "bg-gray-500"
-              } flex w-8 h-8 md:w-12 md:h-12 items-center justify-center rounded-full text-white font-extrabold`}
+                accomplished ? "bg-secondary" : "bg-gray-300"
+              } flex w-12 h-12 items-center justify-center rounded-full text-white font-bold text-2xl`}
             >
               2
             </div>
@@ -36,8 +36,8 @@ const Progress: React.FC<{ step: number }> = ({ step = 0 }) => {
           {({ accomplished }: { accomplished: boolean }) => (
             <div
               className={`${
-                accomplished ? "bg-secondary" : "bg-gray-500"
-              } flex w-8 h-8 md:w-12 md:h-12 items-center justify-center rounded-full text-white font-extrabold`}
+                accomplished ? "bg-secondary" : "bg-gray-300"
+              } flex w-12 h-12 items-center justify-center rounded-full text-white font-bold text-2xl`}
             >
               3
             </div>

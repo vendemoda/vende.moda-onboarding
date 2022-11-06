@@ -12,10 +12,12 @@ import Step3 from "./Step3";
 export interface FormValues {
   name: string;
   email: string;
+  document: string;
   phone: string;
   code: string;
   admin_name: string;
   admin_password: string;
+  admin_password_confirmation: string;
 }
 
 const Form: React.FC = () => {
@@ -23,23 +25,21 @@ const Form: React.FC = () => {
   const [data, setData] = React.useState<FormValues>({
     name: "",
     email: "",
+    document: "",
     phone: "",
     code: "",
     admin_name: "",
     admin_password: "",
+    admin_password_confirmation: "",
   });
 
   return (
-    <div className={"pb-10"}>
-      <div className={"max-w-xl mt-14 mx-auto"}>
+    <div className={"pb-10 p-4"}>
+      <div className={"mt-8"}>
         <Progress step={progress} />
       </div>
-      <Swiper
-        className="max-w-4xl mx-auto"
-        noSwiping={true}
-        noSwipingClass="no-swap"
-      >
-        <SwiperSlide className="mt-5 md:mt-20 flex flex-col md:flex-row items-center nosw no-swap px-1">
+      <Swiper className="mx-auto" noSwiping={true} noSwipingClass="no-swap">
+        <SwiperSlide className="mt-5 md:mt-20 flex flex-col md:flex-row items-center nosw no-swap">
           <Step1
             onDataChange={(formData) => {
               setData({ ...data, ...formData });
@@ -49,7 +49,7 @@ const Form: React.FC = () => {
             }}
           />
         </SwiperSlide>
-        <SwiperSlide className="mt-5 md:mt-20 flex flex-col md:flex-row items-center nosw no-swap px-1">
+        <SwiperSlide className="mt-5 md:mt-20 flex flex-col md:flex-row items-center nosw no-swap">
           <Step2
             formData={data}
             onSuccess={() => {
@@ -57,7 +57,7 @@ const Form: React.FC = () => {
             }}
           />
         </SwiperSlide>
-        <SwiperSlide className="mt-0 md:mt-20 flex flex-col md:flex-row justify-center nosw no-swap px-1">
+        <SwiperSlide className="mt-0 md:mt-20 flex flex-col md:flex-row justify-center nosw no-swap">
           <Step3 url={`https://${data.code}.modacentersantacruz.com.br`} />
         </SwiperSlide>
       </Swiper>

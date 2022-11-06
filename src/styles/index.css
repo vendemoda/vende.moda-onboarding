@@ -14,4 +14,8 @@
   .btn:disabled {
     @apply opacity-50;
   }
+
+  .text-input.error {
+    @apply border-red-500;
+  }
 }

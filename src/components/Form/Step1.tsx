@@ -24,11 +24,23 @@ const Step1: React.FC<Step1Props> = ({ onDataChange, onSuccess }) => {
     register,
     setError,
     clearErrors,
-    watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const code = watch("code");
+  const handleNameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    clearErrors("name");
+    setValue("name", e.target.value);
+    // replace all spaces with regex
+    setValue(
+      "code",
+      e.target.value
+        .replace(/\s/g, "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+    );
+  };
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setLoading(true);
@@ -36,7 +48,7 @@ const Step1: React.FC<Step1Props> = ({ onDataChange, onSuccess }) => {
     if (!/^[a-zA-Z]+$/.test(data.code)) {
       setError("code", {
         message:
-          "O código só deve conter letras minúsculas e não deve conter caractéres especiais",
+          "O link só deve conter letras minúsculas e não deve conter caractéres especiais",
       });
       setLoading(false);
       return;
@@ -44,7 +56,7 @@ const Step1: React.FC<Step1Props> = ({ onDataChange, onSuccess }) => {
     try {
       const isCodeAvailable = await checkCompanyCodeAvailability(data.code);
       if (!isCodeAvailable) {
-        setError("code", { message: "Este código não está disponível" });
+        setError("code", { message: "Este link não está disponível" });
         setLoading(false);
       } else {
         onDataChange(data);
@@ -54,7 +66,7 @@ const Step1: React.FC<Step1Props> = ({ onDataChange, onSuccess }) => {
       }
     } catch (error) {
       setLoading(false);
-      setError("code", { message: "Este código não está disponível1" });
+      setError("code", { message: "Este link não está disponível1" });
     }
   };
 
@@ -62,15 +74,16 @@ const Step1: React.FC<Step1Props> = ({ onDataChange, onSuccess }) => {
     <>
       <div className={"basis-1/2 flex flex-col order-2 md:order-1"}>
         <div>
-          <p className={"mx-4 md:mx-0 text-4xl max-w-md font-extrabold"}>
-            Pronto para começar a{" "}
-            <span className={"text-secondary"}>vender online?</span>
+          <p className={"text-3xl font-bold"}>
+            Não se preocupe. Vamos ajudar você a criar o seu{" "}
+            <span className={"text-secondary"}>catálogo virtual</span>
+            em menos de 5 minutos!
           </p>
-          <p className={"mx-4 md:mx-0 text-gray-500 text-xl mt-1"}>
+          <p className={" text-gray-500 text-xl mt-1"}>
             Basta fornecer alguns dados
           </p>
         </div>
-        <div className={"mt-6 mx-4 md:mx-0"}>
+        <div className={"mt-6 "}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <span>Nome da sua marca</span>
@@ -79,19 +92,23 @@ const Step1: React.FC<Step1Props> = ({ onDataChange, onSuccess }) => {
                 type="text"
                 className="mt-1 block text-input w-full md:w-auto min-w-[300px]"
                 placeholder=""
+                onChange={handleNameInputChange}
               />
               {errors.name && (errors.name.message ?? "Nome obrigatório")}
             </div>
             <div className={"mt-4"}>
               <span>
-                <span>Código da sua marca</span>
+                <span>Link do seu catálogo</span>
               </span>
-              <input
-                {...register("code", { required: true })}
-                type="text"
-                className="mt-1 block text-input w-full md:w-auto min-w-[300px]"
-                placeholder=""
-              />
+              <div className="flex flex-row items-center">
+                <input
+                  {...register("code", { required: true })}
+                  type="text"
+                  className="mt-1 block text-input w-full md:w-auto"
+                  placeholder=""
+                />
+                <span className="ml-2 mt-1">.modacentersantacruz.com.br</span>
+              </div>
               <span className={"mt-4 text-red-500"}>
                 {errors.code?.message}
               </span>
@@ -122,24 +139,19 @@ const Step1: React.FC<Step1Props> = ({ onDataChange, onSuccess }) => {
           "basis-1/2 order-1 md:order-2 flex flex-col justify-end items-center mb-5 md:mb-0"
         }
       >
-        <div>
-          <Lottie
-            options={{
-              loop: false,
-              autoplay: true,
-              animationData: storeAnimationData,
-            }}
-            height={width >= 768 ? 370 : 300}
-            width={width >= 768 ? 370 : 300}
-          />
-        </div>
-        <div>
-          {code && (
-            <p className={"text-gray-700 text-sm md:text-xl font-bold"}>
-              {code}.modacentersantacruz.com.br
-            </p>
-          )}
-        </div>
+        {width > 768 && (
+          <div>
+            <Lottie
+              options={{
+                loop: false,
+                autoplay: true,
+                animationData: storeAnimationData,
+              }}
+              height={width >= 768 ? 370 : 300}
+              width={width >= 768 ? 370 : 300}
+            />
+          </div>
+        )}
       </div>
     </>
   );

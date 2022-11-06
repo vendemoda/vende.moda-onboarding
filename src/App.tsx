@@ -10,7 +10,7 @@ const App: React.FC = () => {
   return (
     <div className={"h-screen"}>
       <Header />
-      <div className={"container mx-auto"}>
+      <div className={"container mx-auto md:px-20 md:max-w-7xl"}>
         <Form />
       </div>
       <ToastContainer />
