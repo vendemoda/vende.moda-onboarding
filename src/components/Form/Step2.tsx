@@ -6,6 +6,9 @@ import { toastError, validatePhoneText } from "../../utils/functions";
 import ReactLoading from "react-loading";
 import Api from "../../services/Api";
 import { useSwiper } from "swiper/react";
+import Lottie from "react-lottie";
+import ecommerceAnimationData from "../../assets/ecommerce.json";
+import { useWindowSize } from "../../hooks";
 
 interface Step2Props {
   formData: FormValues;
@@ -16,6 +19,7 @@ const Step2: React.FC<Step2Props> = ({ formData, onSuccess }) => {
   const [loading, setLoading] = React.useState(false);
   const swiper = useSwiper();
   const [documentType, setDocumentType] = React.useState("cpf");
+  const { width } = useWindowSize();
 
   const {
     handleSubmit,
@@ -78,10 +82,9 @@ const Step2: React.FC<Step2Props> = ({ formData, onSuccess }) => {
             />
           </div>
           <div className={"mt-4"}>
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row">
               <span>Documento</span>
-              <div className="flex flex-row items-center">
-                <label className="mr-2">Pessoa jurídica</label>
+              <div className="flex flex-row items-center ml-4">
                 <input
                   onChange={(e) =>
                     setDocumentType(e.target.checked ? "cnpj" : "cpf")
@@ -89,6 +92,7 @@ const Step2: React.FC<Step2Props> = ({ formData, onSuccess }) => {
                   type={"checkbox"}
                   value={documentType === "cnpj" ? 1 : 0}
                 />
+                <label className="ml-2">Pessoa jurídica</label>
               </div>
             </div>
             <span className={"block text-sm text-gray-500"}>
@@ -177,6 +181,25 @@ const Step2: React.FC<Step2Props> = ({ formData, onSuccess }) => {
           </div>
         </form>
       </div>
+      {width > 768 && (
+        <div
+          className={
+            "basis-1/2 order-1 md:order-2 flex flex-col justify-end items-center mb-5 md:mb-0"
+          }
+        >
+          <div>
+            <Lottie
+              options={{
+                loop: true,
+                autoplay: true,
+                animationData: ecommerceAnimationData,
+              }}
+              height={width >= 768 ? 370 : 300}
+              width={width >= 768 ? 370 : 300}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };
