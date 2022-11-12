@@ -77,7 +77,7 @@ const Step1: React.FC<Step1Props> = ({ onDataChange, onSuccess }) => {
           <p className={"text-3xl font-bold"}>
             Não se preocupe. Vamos ajudar você a criar o seu{" "}
             <span className={"text-secondary"}>catálogo virtual</span>
-            em menos de 5 minutos!
+            {" "}em menos de 5 minutos!
           </p>
           <p className={" text-gray-500 text-xl mt-1"}>
             Basta fornecer alguns dados
