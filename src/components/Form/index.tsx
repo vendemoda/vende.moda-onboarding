@@ -2,6 +2,7 @@ import * as React from "react";
 import "react-step-progress-bar/styles.css";
 import Progress from "./Progress";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import supportButton from "../../assets/support.png";
 
 import "swiper/css";
 
@@ -34,6 +35,10 @@ const Form: React.FC = () => {
   });
 
   return (
+    <>
+    <a style={{ position: "fixed", right: 7 , bottom: 7, zIndex: 2 }} href={'https://api.whatsapp.com/send?phone=5581993897649&text=Olá, gostaria de mais informações sobre o catálogo'} target="_blank" rel="noopener noreferrer">
+      <img src={supportButton} style={{ height: 57, width: 142}} />
+    </a>
     <div className={"pb-10 p-4"}>
       <div className={"mt-8"}>
         <Progress step={progress} />
@@ -62,6 +67,7 @@ const Form: React.FC = () => {
         </SwiperSlide>
       </Swiper>
     </div>
+    </>
   );
 };
 
