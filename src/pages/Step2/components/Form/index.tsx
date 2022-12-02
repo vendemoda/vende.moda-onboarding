@@ -21,12 +21,12 @@ const Step2Form: FC = () => {
 
   const onSubmit: SubmitHandler<ModaCenterAddress> = async (data) => {
     clearErrors();
-    if (!data.block) {
-      setError("block", { message: "Você precisa informar o bloco" });
+    if (!data.modacenter_block) {
+      setError("modacenter_block", { message: "Você precisa informar o bloco" });
       return toastError("Informe o bloco");
     }
-    if (!data.address) {
-      setError("address", { message: "Você precisa informar o endereço" });
+    if (!data.modacenter_address) {
+      setError("modacenter_address", { message: "Você precisa informar o endereço" });
       return toastError("Informe o endereço");
     }
     dispatch(setModaCenterAddressData(data));
@@ -39,10 +39,10 @@ const Step2Form: FC = () => {
         <label htmlFor="sector">Setor</label>
         <span className={"block text-sm text-gray-500"}>Informe o setor do seu ponto no Moda Center</span>
         <select
-          {...register("block", { required: true })}
+          {...register("modacenter_block", { required: true })}
           placeholder={"Selecione uma opção"}
           required
-          className={`mt-1 block text-input w-full md:w-auto min-w-[300px] ${errors.block && "error"}`}
+          className={`mt-1 block text-input w-full md:w-auto min-w-[300px] ${errors.modacenter_block && "error"}`}
         >
           <option value={""} selected disabled>
             Selecione uma opção
@@ -51,14 +51,14 @@ const Step2Form: FC = () => {
           <option value={"azul"}>Verde</option>
           <option value={"azul"}>Amarelo</option>
         </select>
-        {errors.block && <p>{errors.block.message}</p>}
+        {errors.modacenter_block && <p>{errors.modacenter_block.message}</p>}
       </div>
       <div className="mt-4">
         <label htmlFor="sector">Endereço</label>
         <span className={"block text-sm text-gray-500"}>Informe o endereço do seu ponto no Moda Center</span>
         <input
-          {...register("address", { required: true })}
-          className={`mt-1 block text-input w-full md:w-auto min-w-[300px] ${errors.block && "error"}`}
+          {...register("modacenter_address", { required: true })}
+          className={`mt-1 block text-input w-full md:w-auto min-w-[300px] ${errors.modacenter_address && "error"}`}
           required
         />
       </div>

@@ -32,7 +32,6 @@ const Step3Modacenter: FC = () => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log({ ...modacenterAddressData, ...companyFormData, ...data }, "daaata final");
     setLoading(true);
     clearErrors();
     if (!/^[a-zA-Z0-9]+$/.test(data.code)) {

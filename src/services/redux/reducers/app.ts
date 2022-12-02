@@ -13,8 +13,8 @@ export interface FormData {
 }
 
 export interface ModaCenterAddress {
-  block: string;
-  address: string;
+  modacenter_block: string;
+  modacenter_address: string;
 }
 
 export const initialFormDataState: FormData = {
@@ -29,8 +29,8 @@ export const initialFormDataState: FormData = {
 };
 
 export const initialModaCenterAddresDataState: ModaCenterAddress = {
-  block: "",
-  address: "",
+  modacenter_block: "",
+  modacenter_address: "",
 };
 
 export const formDataSlice = createSlice({
