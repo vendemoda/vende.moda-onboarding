@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { Provider } from "react-redux";
+import { store } from "@/services/redux/store";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <App />
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );

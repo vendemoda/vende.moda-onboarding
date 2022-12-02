@@ -1,0 +1,75 @@
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+
+export interface FormData {
+  name: string;
+  email: string;
+  document: string;
+  phone: string;
+  code: string;
+  admin_name: string;
+  admin_password: string;
+  admin_password_confirmation: string;
+}
+
+export interface ModaCenterAddress {
+  block: string;
+  address: string;
+}
+
+export const initialFormDataState: FormData = {
+  name: "",
+  email: "",
+  document: "",
+  phone: "",
+  code: "",
+  admin_name: "",
+  admin_password: "",
+  admin_password_confirmation: "",
+};
+
+export const initialModaCenterAddresDataState: ModaCenterAddress = {
+  block: "",
+  address: "",
+};
+
+export const formDataSlice = createSlice({
+  name: "app_data",
+  initialState: {
+    companyFormData: initialFormDataState,
+    modacenterAddressData: initialModaCenterAddresDataState,
+    isPrivacyPolicyModalOpen: false,
+    isTermsOfUseModalOpen: false,
+    termsAccepted: false,
+  },
+  reducers: {
+    setFormData: (state, action: PayloadAction<{ key: keyof FormData; value: string } | FormData>) => {
+      if ("key" in action.payload) {
+        state.companyFormData[action.payload.key] = action.payload.value;
+      } else {
+        state.companyFormData = action.payload;
+      }
+    },
+    setModaCenterAddressData: (state, action: PayloadAction<{ key: keyof ModaCenterAddress; value: string } | ModaCenterAddress>) => {
+      if ("key" in action.payload) {
+        state.modacenterAddressData[action.payload.key] = action.payload.value;
+      } else {
+        state.modacenterAddressData = action.payload;
+      }
+    },
+    setPrivacyPolicyModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.isPrivacyPolicyModalOpen = action.payload;
+    },
+    setTermsOfUseModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.isTermsOfUseModalOpen = action.payload;
+    },
+    setAcceptedTerms: (state, action: PayloadAction<boolean>) => {
+      state.termsAccepted = action.payload;
+    },
+  },
+});
+
+// Action creators are generated for each case reducer function
+export const { setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen, setAcceptedTerms, setModaCenterAddressData } = formDataSlice.actions;
+
+export default formDataSlice.reducer;

@@ -4,7 +4,7 @@
 
 @layer components {
   .text-input {
-    @apply rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+    @apply rounded-md px-2 border-2 min-h-[40px] border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
   }
 
   .btn {
