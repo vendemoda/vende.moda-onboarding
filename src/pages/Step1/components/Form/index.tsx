@@ -3,12 +3,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FormData, setAcceptedTerms, setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen } from "@/services/redux/reducers/app";
 import InputMask from "react-input-mask";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { toastError, validatePhoneText } from "@/helpers/functions";
+import { sendCompanyData, toastError, validatePhoneText } from "@/helpers/functions";
 import Checkbox from "@/components/Checkbox";
 import { useNavigate } from "react-router-dom";
 
 const GeneralDataForm: FC = () => {
-  const { termsAccepted } = useAppSelector((state) => state.app);
+  const { termsAccepted, companyFormData } = useAppSelector((state) => state.app);
   const [documentType, setDocumentType] = useState("cpf");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -32,10 +32,10 @@ const GeneralDataForm: FC = () => {
       setError("phone", { message: "Telefone inválido" });
       return toastError("Telefone inválido");
     }
-    console.log(data, "data");
     if (!termsAccepted) {
       return toastError("Você precisa aceitar os termos de uso");
     }
+    await sendCompanyData({ ...companyFormData });
     dispatch(setFormData(data));
     navigate("/passo-2");
   };
