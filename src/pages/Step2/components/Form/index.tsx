@@ -48,8 +48,11 @@ const Step2Form: FC = () => {
             Selecione uma opção
           </option>
           <option value={"azul"}>Azul</option>
-          <option value={"azul"}>Verde</option>
-          <option value={"azul"}>Amarelo</option>
+          <option value={"laranja"}>Laranja</option>
+          <option value={"vermelho"}>Vermelho</option>
+          <option value={"verde"}>Verde</option>
+          <option value={"amarelo"}>Amarelo</option>
+          <option value={"branco"}>Branco</option>
         </select>
         {errors.modacenter_block && <p>{errors.modacenter_block.message}</p>}
       </div>
