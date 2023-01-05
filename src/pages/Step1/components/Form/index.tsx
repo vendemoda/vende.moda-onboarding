@@ -1,14 +1,14 @@
+import Checkbox from "@/components/Checkbox";
+import { sendCompanyData, toastError, validatePhoneText } from "@/helpers/functions";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { FormData, setAcceptedTerms, setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen } from "@/services/redux/reducers/app";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FormData, setAcceptedTerms, setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen } from "@/services/redux/reducers/app";
 import InputMask from "react-input-mask";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { sendCompanyData, toastError, validatePhoneText } from "@/helpers/functions";
-import Checkbox from "@/components/Checkbox";
 import { useNavigate } from "react-router-dom";
 
 const GeneralDataForm: FC = () => {
-  const { termsAccepted, companyFormData } = useAppSelector((state) => state.app);
+  const { termsAccepted } = useAppSelector((state) => state.app);
   const [documentType, setDocumentType] = useState("cpf");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -35,9 +35,13 @@ const GeneralDataForm: FC = () => {
     if (!termsAccepted) {
       return toastError("Você precisa aceitar os termos de uso");
     }
-    await sendCompanyData({ ...companyFormData });
-    dispatch(setFormData(data));
-    navigate("/passo-2");
+    try {
+      dispatch(setFormData(data));
+      await sendCompanyData({ ...data });
+      navigate("/passo-2");
+    } catch (error) {
+      toastError(error);
+    }
   };
 
   return (
@@ -170,7 +174,7 @@ const GeneralDataForm: FC = () => {
       </div>
       <div>
         <button type={"submit"} className={"btn rounded-lg min-w-[200px]"}>
-          <span>Finalizar!</span>
+          <span>Continuar!</span>
         </button>
       </div>
     </form>
