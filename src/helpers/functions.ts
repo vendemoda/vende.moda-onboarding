@@ -21,7 +21,5 @@ export const validatePhoneText = (value: string): boolean => {
 };
 
 export const sendCompanyData = async (payload: RootState["app"]["companyFormData"]) => {
-  try {
-    await Api.post(`/leads`, payload);
-  } catch (error) {}
+  await Api.post(`/leads`, payload);
 };
