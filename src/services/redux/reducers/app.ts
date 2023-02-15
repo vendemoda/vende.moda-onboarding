@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface FormData {
   name: string;
@@ -41,6 +41,7 @@ export const formDataSlice = createSlice({
     isPrivacyPolicyModalOpen: false,
     isTermsOfUseModalOpen: false,
     termsAccepted: false,
+    confirmationEmail: "",
   },
   reducers: {
     setFormData: (state, action: PayloadAction<{ key: keyof FormData; value: string } | FormData>) => {
@@ -66,10 +67,14 @@ export const formDataSlice = createSlice({
     setAcceptedTerms: (state, action: PayloadAction<boolean>) => {
       state.termsAccepted = action.payload;
     },
+    setConfirmationEmail: (state, action: PayloadAction<string>) => {
+      state.confirmationEmail = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen, setAcceptedTerms, setModaCenterAddressData } = formDataSlice.actions;
+export const { setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen, setAcceptedTerms, setModaCenterAddressData, setConfirmationEmail } =
+  formDataSlice.actions;
 
 export default formDataSlice.reducer;

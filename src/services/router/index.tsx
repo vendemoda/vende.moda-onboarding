@@ -1,3 +1,4 @@
+import { SendConfirmationEmail } from "@/pages/SendConfirmationEmail";
 import Step1 from "@/pages/Step1";
 import Step2 from "@/pages/Step2";
 import Step3Modacenter from "@/pages/Step3/Modacenter";
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Step1 />,
+  },
+  {
+    path: "/enviar-email-confirmacao",
+    element: <SendConfirmationEmail />,
   },
   {
     path: "/passo-2",

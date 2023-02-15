@@ -1,7 +1,14 @@
 import Checkbox from "@/components/Checkbox";
 import { sendCompanyData, toastError, validatePhoneText } from "@/helpers/functions";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { FormData, setAcceptedTerms, setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen } from "@/services/redux/reducers/app";
+import {
+  FormData,
+  setAcceptedTerms,
+  setConfirmationEmail,
+  setFormData,
+  setPrivacyPolicyModalOpen,
+  setTermsOfUseModalOpen,
+} from "@/services/redux/reducers/app";
 import { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
@@ -37,8 +44,9 @@ const GeneralDataForm: FC = () => {
     }
     try {
       dispatch(setFormData(data));
+      dispatch(setConfirmationEmail(data.email));
       await sendCompanyData({ ...data });
-      navigate("/passo-2");
+      navigate("/enviar-email-confirmacao");
     } catch (error) {
       toastError(error);
     }
