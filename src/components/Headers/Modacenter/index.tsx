@@ -1,10 +1,10 @@
-import * as React from "react";
 import mdcLogo from "@/assets/mdc_logo.png";
+import * as React from "react";
 
 const ModacenterHeader: React.FC = () => {
   return (
-    <div className={"bg-secondary flex justify-center h-16 items-center"}>
-      <img src={mdcLogo} className={"h-10"} />
+    <div style={{ backgroundColor: "#F6F7FC" }} className={" flex justify-center h-16 items-center"}>
+      <img src={mdcLogo} className={"h-[45px]"} />
     </div>
   );
 };

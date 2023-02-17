@@ -1,8 +1,9 @@
+import Email from "@/assets/email.svg";
+import VendemodaFooter from "@/components/Footers/Vendemoda";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import { useAppSelector } from "@/hooks/redux";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import Email from "../../assets/email.svg";
-export const SendConfirmationEmail = () => {
+export const EmailSended = () => {
   const { width } = useWindowSize();
   const { confirmationEmail } = useAppSelector((state) => state.app);
   return (
@@ -18,13 +19,14 @@ export const SendConfirmationEmail = () => {
           <div className="mx-10">
             <h2 className="text-2xl text-center font-bold text-gray-800 my-4">Falta pouco!</h2>
             <p className="text-gray-600 my-4 ">
-              Ficamos felizes que você decidiu criar seu catálogo conosco! Agora precisamos que você clique no link que enviamos para o email:{" "}
-              <div className="inline-block underline text-blue-600">{confirmationEmail}</div> para continuar o cadastro.
+              Ficamos felizes por você ter decidido criar seu catálogo conosco! Agora, precisamos que você clique no link que enviamos para o e-mail:{" "}
+              <div className="inline-block underline text-blue-600">{confirmationEmail}</div>, a fim de continuar o cadastro.
             </p>
           </div>
           {width > 768 && <img src={Email} width={300} />}
         </div>
       </div>
+      <VendemodaFooter />
     </div>
   );
 };
