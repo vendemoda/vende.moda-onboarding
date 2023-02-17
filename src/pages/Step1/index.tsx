@@ -1,15 +1,16 @@
-import { FC } from "react";
+import ecommerceAnimationData from "@/assets/ecommerce.json";
+import VendemodaFooter from "@/components/Footers/Vendemoda";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import Lottie from "react-lottie";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import ecommerceAnimationData from "@/assets/ecommerce.json";
+import { FC } from "react";
+import Lottie from "react-lottie";
 import GeneralDataForm from "./components/Form";
 
 const Step1: FC = () => {
   const { width } = useWindowSize();
   return (
-    <div>
+    <div className="h-screen flex flex-col justify-between">
       <ModacenterHeader />
       <div className="my-10">
         <ProgressIndicator step={1} />
@@ -40,6 +41,7 @@ const Step1: FC = () => {
           )}
         </div>
       </div>
+      <VendemodaFooter />
     </div>
   );
 };

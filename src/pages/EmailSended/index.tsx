@@ -1,4 +1,4 @@
-import Email from "@/assets/email.svg";
+import Email from "@/assets/sended-email.svg";
 import VendemodaFooter from "@/components/Footers/Vendemoda";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import { useAppSelector } from "@/hooks/redux";
@@ -7,10 +7,20 @@ export const EmailSended = () => {
   const { width } = useWindowSize();
   const { confirmationEmail } = useAppSelector((state) => state.app);
   return (
-    <div className="flex flex-col h-screen">
+    <div className="h-screen flex flex-col justify-between">
       <ModacenterHeader />
+      <div className="flex w-full flex-col items-center h-full my-10">
+        <img src={Email} width={140} />
 
-      <div className="flex-grow flex justify-center items-center">
+        <b style={{ width: "350px" }} className=" text-center my-4">
+          Um e-mail com o link de cadastro foi enviado para: <div className="inline-block text-green-600">{confirmationEmail}</div>
+        </b>
+        <span style={{ width: "350px" }} className="text-center">
+          Se você não encontrar o e-mail na caixa de entrada, tente procurá-lo em sua pasta de Spam
+        </span>
+      </div>
+
+      {/* <div className="flex-grow flex justify-center items-center">
         <div
           className={`flex flex-row p-5 mx-4 items-center rounded-lg bg-slate-300 justify-evenly ${
             width > 768 ? "h-[350px] max-w-[700px]" : "max-h-[300px] max-w-[500px]"
@@ -25,7 +35,7 @@ export const EmailSended = () => {
           </div>
           {width > 768 && <img src={Email} width={300} />}
         </div>
-      </div>
+      </div> */}
       <VendemodaFooter />
     </div>
   );

@@ -1,10 +1,11 @@
+import ecommerceAnimationData from "@/assets/ecommerce.json";
+import VendemodaFooter from "@/components/Footers/Vendemoda";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import { useAppSelector } from "@/hooks/redux";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import ecommerceAnimationData from "@/assets/ecommerce.json";
 import { FC, useEffect } from "react";
 import Lottie from "react-lottie";
-import { useAppSelector } from "@/hooks/redux";
 import { useNavigate } from "react-router-dom";
 import Step2Form from "./components/Form";
 
@@ -20,7 +21,7 @@ const Step2: FC = () => {
   }, [companyFormData]);
 
   return (
-    <div>
+    <div className="h-screen flex flex-col justify-between">
       <ModacenterHeader />
       <div className="my-10">
         <ProgressIndicator step={35} />
@@ -48,6 +49,7 @@ const Step2: FC = () => {
           )}
         </div>
       </div>
+      <VendemodaFooter />
     </div>
   );
 };

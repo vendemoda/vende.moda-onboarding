@@ -2,23 +2,29 @@ import BackgroundPhone from "@/assets/background-phone.svg";
 import VendemodaFooter from "@/components/Footers/Vendemoda";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import { toastError } from "@/helpers/functions";
+import { useAppDispatch } from "@/hooks/redux";
 import Api from "@/services/Api";
+import { setConfirmationEmail } from "@/services/redux/reducers/app";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const EnterEmail = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const onSubmit = async () => {
     try {
-      const res = await Api.post("/leads/send_email_confirmation", { email: email });
-      console.log("data", res);
+      await Api.post("/leads/send_email_confirmation", { email });
+      dispatch(setConfirmationEmail(email));
+      navigate("/email-enviado");
     } catch (error) {
       toastError(error);
     }
   };
   return (
-    <div>
+    <div className="h-screen flex flex-col justify-between">
       <ModacenterHeader />
-      <div className={`flex items-center mt-10 justify-evenly h-full flex-col overflow-y-auto pb-44`}>
+      <div className={`flex items-center justify-evenly flex-col`}>
         <div className="relative w-[350px] flex flex-row p-5">
           <img src={BackgroundPhone} height={270} />
           <span className="absolute flex flex-col left-[180px] top-10" style={{ lineHeight: 1 }}>
