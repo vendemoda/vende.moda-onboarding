@@ -14,7 +14,8 @@ export const EnterEmail = () => {
   const [email, setEmail] = useState("");
   const onSubmit = async () => {
     try {
-      await Api.post("/leads/send_email_confirmation", { email });
+      const res = await Api.post("/leads/send_email_confirmation", { email });
+      console.log(res);
       dispatch(setConfirmationEmail(email));
       navigate("/email-enviado");
     } catch (error) {
