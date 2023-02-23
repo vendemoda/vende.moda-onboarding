@@ -19,7 +19,7 @@ interface FormValues {
 
 const Step3Modacenter: FC = () => {
   const { width } = useWindowSize();
-  const { companyFormData, modacenterAddressData } = useAppSelector((state) => state.app);
+  const { companyFormData, modacenterAddressData, confirmationEmail } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -52,13 +52,19 @@ const Step3Modacenter: FC = () => {
     } catch (error) {
       return toastError(error);
     }
-
     try {
       await Api.post(`/company`, {
         ...companyFormData,
         ...modacenterAddressData,
+        email: confirmationEmail,
         code: data.code,
       });
+      const login = await Api.post(`/user/login`, {
+        username: confirmationEmail,
+        password: companyFormData.admin_password,
+      });
+      console.log(login, "login response");
+      console.log("login.data.token", login.data.token);
       dispatch(setFormData({ key: "code", value: data.code }));
       setLoading(false);
       navigate("/fim-modacenter");

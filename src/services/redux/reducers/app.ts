@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface FormData {
   name: string;
-  email: string;
   document: string;
   phone: string;
   code: string;
@@ -19,7 +18,6 @@ export interface ModaCenterAddress {
 
 export const initialFormDataState: FormData = {
   name: "",
-  email: "",
   document: "",
   phone: "",
   code: "",
@@ -37,6 +35,7 @@ export const formDataSlice = createSlice({
   name: "app_data",
   initialState: {
     companyFormData: initialFormDataState,
+    emailValidatedToken: "",
     modacenterAddressData: initialModaCenterAddresDataState,
     isPrivacyPolicyModalOpen: false,
     isTermsOfUseModalOpen: false,
@@ -70,11 +69,21 @@ export const formDataSlice = createSlice({
     setConfirmationEmail: (state, action: PayloadAction<string>) => {
       state.confirmationEmail = action.payload;
     },
+    setEmailValidatedToken: (state, action: PayloadAction<string>) => {
+      state.emailValidatedToken = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen, setAcceptedTerms, setModaCenterAddressData, setConfirmationEmail } =
-  formDataSlice.actions;
+export const {
+  setFormData,
+  setPrivacyPolicyModalOpen,
+  setTermsOfUseModalOpen,
+  setAcceptedTerms,
+  setModaCenterAddressData,
+  setConfirmationEmail,
+  setEmailValidatedToken,
+} = formDataSlice.actions;
 
 export default formDataSlice.reducer;

@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <EmailSended />,
   },
   {
-    path: "confirmar-email",
+    path: "/confirmar-email",
     element: <ReceivedToken />,
   },
   {

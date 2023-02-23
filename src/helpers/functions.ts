@@ -20,6 +20,7 @@ export const validatePhoneText = (value: string): boolean => {
   return result ? true : false;
 };
 
-export const sendCompanyData = async (payload: RootState["app"]["companyFormData"]) => {
-  await Api.post(`/leads`, payload);
+export const sendCompanyData = async (payload: RootState["app"]["companyFormData"], emailValidatedToken: string) => {
+  console.log("payload", { ...payload, token: emailValidatedToken });
+  await Api.post(`/leads`, { ...payload, token: emailValidatedToken });
 };

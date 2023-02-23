@@ -2,9 +2,7 @@ import Email from "@/assets/sended-email.svg";
 import VendemodaFooter from "@/components/Footers/Vendemoda";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import { useAppSelector } from "@/hooks/redux";
-import { useWindowSize } from "@/hooks/useWindowSize";
 export const EmailSended = () => {
-  const { width } = useWindowSize();
   const { confirmationEmail } = useAppSelector((state) => state.app);
   return (
     <div className="h-screen flex flex-col justify-between">

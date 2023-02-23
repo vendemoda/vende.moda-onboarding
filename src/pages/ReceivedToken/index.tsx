@@ -1,33 +1,38 @@
 import VendemodaFooter from "@/components/Footers/Vendemoda";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import { toastError } from "@/helpers/functions";
+import { useAppDispatch } from "@/hooks/redux";
 import Api from "@/services/Api";
+import { setConfirmationEmail, setEmailValidatedToken } from "@/services/redux/reducers/app";
 import React from "react";
 import ReactLoading from "react-loading";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const ReceivedToken = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
-  const [isToastShown, setIsToastShown] = React.useState(false);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const validateToken = async () => {
-    console.log("called", isToastShown);
     try {
       const { data } = await Api.post(`/leads/validate_email_confirmation_token/?token=${token}`);
-      if (data?.ok && !isToastShown) {
+      if (data?.ok) {
         toast("Email confirmado com sucesso!");
+        console.log(data);
+        dispatch(setConfirmationEmail(data?.email ?? ""));
+        dispatch(setEmailValidatedToken(token ?? ""));
+        navigate("/passo-1");
       }
     } catch (error) {
       toastError(error);
     }
-    setIsToastShown(true);
   };
 
   React.useEffect(() => {
-    if (!token || isToastShown) return;
+    if (!token) return;
     validateToken();
   }, []);
 
