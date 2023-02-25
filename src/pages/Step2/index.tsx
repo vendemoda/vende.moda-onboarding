@@ -2,6 +2,7 @@ import ecommerceAnimationData from "@/assets/ecommerce.json";
 import VendemodaFooter from "@/components/Footers/Vendemoda";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import { toastError } from "@/helpers/functions";
 import { useAppSelector } from "@/hooks/redux";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { FC, useEffect } from "react";
@@ -11,10 +12,14 @@ import Step2Form from "./components/Form";
 
 const Step2: FC = () => {
   const { width } = useWindowSize();
-  const { companyFormData } = useAppSelector((state) => state.app);
+  const { companyFormData, emailValidatedToken } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!emailValidatedToken) {
+      toastError("Email não validado, por favor valide seu email");
+      navigate("/");
+    }
     if (!companyFormData.admin_name) {
       //navigate("/");
     }

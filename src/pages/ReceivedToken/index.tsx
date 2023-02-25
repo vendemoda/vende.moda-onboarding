@@ -28,6 +28,7 @@ export const ReceivedToken = () => {
       }
     } catch (error) {
       toastError(error);
+      navigate("/");
     }
   };
 

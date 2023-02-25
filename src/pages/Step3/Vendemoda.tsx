@@ -19,7 +19,7 @@ interface FormValues {
 
 const Step3Vendemoda: FC = () => {
   const { width } = useWindowSize();
-  const { companyFormData, modacenterAddressData } = useAppSelector((state) => state.app);
+  const { companyFormData, modacenterAddressData, emailValidatedToken } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -31,6 +31,11 @@ const Step3Vendemoda: FC = () => {
     clearErrors,
     formState: { errors },
   } = useForm<FormValues>();
+
+  if (!emailValidatedToken) {
+    toastError("Email não validado, por favor valide seu email");
+    navigate("/");
+  }
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setLoading(true);

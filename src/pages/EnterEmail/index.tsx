@@ -4,19 +4,25 @@ import ModacenterHeader from "@/components/Headers/Modacenter";
 import { toastError } from "@/helpers/functions";
 import { useAppDispatch } from "@/hooks/redux";
 import Api from "@/services/Api";
-import { setConfirmationEmail } from "@/services/redux/reducers/app";
+import { setConfirmationEmail, setEmailValidatedToken } from "@/services/redux/reducers/app";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 export const EnterEmail = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const onSubmit = async () => {
     try {
-      await Api.post("/leads/send_email_confirmation", { email });
-      dispatch(setConfirmationEmail(email));
-      navigate("/email-enviado");
+      const { data } = await Api.post("/leads/send_email_confirmation", { email });
+      if (data?.alreadyValidated && data?.token) {
+        dispatch(setEmailValidatedToken(data.token));
+        toast("Email já validado, redirecionando para o cadastro");
+        navigate("/passo-1");
+      } else {
+        dispatch(setConfirmationEmail(email));
+        navigate("/email-enviado");
+      }
     } catch (error) {
       toastError(error);
     }

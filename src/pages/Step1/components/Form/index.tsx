@@ -2,7 +2,7 @@ import Checkbox from "@/components/Checkbox";
 import { sendCompanyData, toastError, validatePhoneText } from "@/helpers/functions";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { FormData, setAcceptedTerms, setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen } from "@/services/redux/reducers/app";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
@@ -45,6 +45,13 @@ const GeneralDataForm: FC = () => {
       toastError(error);
     }
   };
+
+  useEffect(() => {
+    if (!emailValidatedToken) {
+      toastError("Email não validado, por favor valide seu email");
+      navigate("/");
+    }
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

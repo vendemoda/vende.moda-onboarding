@@ -19,10 +19,15 @@ interface FormValues {
 
 const Step3Modacenter: FC = () => {
   const { width } = useWindowSize();
-  const { companyFormData, modacenterAddressData, confirmationEmail } = useAppSelector((state) => state.app);
+  const { companyFormData, modacenterAddressData, confirmationEmail, emailValidatedToken } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
+
+  if (!emailValidatedToken) {
+    toastError("Email não validado, por favor valide seu email");
+    navigate("/");
+  }
 
   const {
     handleSubmit,
