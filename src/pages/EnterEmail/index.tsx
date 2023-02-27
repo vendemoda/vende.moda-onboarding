@@ -17,6 +17,7 @@ export const EnterEmail = () => {
       const { data } = await Api.post("/leads/send_email_confirmation", { email });
       if (data?.alreadyValidated && data?.token) {
         dispatch(setEmailValidatedToken(data.token));
+        dispatch(setConfirmationEmail(data.email));
         toast("Email já validado, redirecionando para o cadastro");
         navigate("/passo-1");
       } else {

@@ -21,7 +21,6 @@ export const ReceivedToken = () => {
       const { data } = await Api.post(`/leads/validate_email_confirmation_token/?token=${token}`);
       if (data?.ok) {
         toast("Email confirmado com sucesso!");
-        console.log(data);
         dispatch(setConfirmationEmail(data?.email ?? ""));
         dispatch(setEmailValidatedToken(token ?? ""));
         navigate("/passo-1");
