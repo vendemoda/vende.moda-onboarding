@@ -7,7 +7,7 @@ const headers = {
 };
 
 const Api = axios.create({
-  baseURL: "http://localhost:1337/v1",
+  baseURL: "https://apicatalogo.modacentersantacruz.com.br/v1",
   headers,
 });
 
