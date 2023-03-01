@@ -12,6 +12,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Lottie from "react-lottie";
 import { useNavigate } from "react-router-dom";
 import { checkCompanyCodeAvailability } from "./helpers";
+import { toast } from "react-toastify";
 
 interface FormValues {
   code: string;
@@ -64,9 +65,22 @@ const Step3Modacenter: FC = () => {
         email: confirmationEmail,
         code: data.code,
       });
+      const response = await Api.post(`/user/login`, {
+        username: confirmationEmail,
+        password: companyFormData.admin_password,
+      });
+      localStorage.setItem("user_token", response.data.token);
+      localStorage.setItem("user_id", response.data.userId);
+      localStorage.setItem("user_name", response.data.userName);
+      localStorage.setItem("user_role", response.data.userRole);
+      localStorage.setItem("company_code", response.data.company_code);
+
       dispatch(setFormData({ key: "code", value: data.code }));
       setLoading(false);
-      navigate("/fim-modacenter");
+      toast("Seu catálogo foi criado com sucesso! Agora você pode acessar o painel administrativo e começar a cadastrar seus produtos. Vamos lá!");
+      setTimeout(() => {
+        window.location.href = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://painelcatalogo.modacentersantacruz.com.br";
+      }, 5000);
     } catch (error) {
       setLoading(false);
       return toastError(error);
