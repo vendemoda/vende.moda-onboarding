@@ -12,7 +12,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Lottie from "react-lottie";
 import { useNavigate } from "react-router-dom";
 import { checkCompanyCodeAvailability } from "./helpers";
-import { toast } from "react-toastify";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 interface FormValues {
   code: string;
@@ -25,10 +26,22 @@ const Step3Modacenter: FC = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
-  if (!emailValidatedToken) {
-    toastError("Email não validado, por favor valide seu email");
-    navigate("/");
-  }
+  const showConfirmationAlert = () => {
+    confirmAlert({
+      closeOnClickOutside: false,
+      closeOnEscape: false,
+      title: "Parabéns!",
+      message: "Seu catálogo foi criado com sucesso! Agora você pode acessar o painel administrativo e começar a cadastrar seus produtos.",
+      buttons: [
+        {
+          label: "Vamos lá!",
+          onClick: () => {
+            window.location.href = process.env.NODE_ENV === "development" ? "http://localhost:3000/" : "https://painelcatalogo.modacentersantacruz.com.br";
+          },
+        },
+      ],
+    });
+  };
 
   const {
     handleSubmit,
@@ -77,10 +90,7 @@ const Step3Modacenter: FC = () => {
 
       dispatch(setFormData({ key: "code", value: data.code }));
       setLoading(false);
-      toast("Seu catálogo foi criado com sucesso! Agora você pode acessar o painel administrativo e começar a cadastrar seus produtos. Vamos lá!");
-      setTimeout(() => {
-        window.location.href = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://painelcatalogo.modacentersantacruz.com.br";
-      }, 5000);
+      showConfirmationAlert();
     } catch (error) {
       setLoading(false);
       return toastError(error);
