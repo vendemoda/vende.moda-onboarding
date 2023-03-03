@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface FormData {
   name: string;
-  document: string;
+  document_number: string;
+  document_type: string;
   phone: string;
   code: string;
   admin_name: string;
@@ -18,7 +19,8 @@ export interface ModaCenterAddress {
 
 export const initialFormDataState: FormData = {
   name: "",
-  document: "",
+  document_number: "",
+  document_type: "",
   phone: "",
   code: "",
   admin_name: "",
