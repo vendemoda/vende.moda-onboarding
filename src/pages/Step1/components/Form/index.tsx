@@ -37,9 +37,8 @@ const GeneralDataForm: FC = () => {
       return toastError("Você precisa aceitar os termos de uso");
     }
     try {
-      console.log(emailValidatedToken, "emailValidatedToken");
       dispatch(setFormData(data));
-      await sendCompanyData({ ...data }, emailValidatedToken);
+      await sendCompanyData({ ...data, document_type: documentType }, emailValidatedToken);
       navigate("/passo-2");
     } catch (error) {
       toastError(error);
@@ -96,13 +95,13 @@ const GeneralDataForm: FC = () => {
         <span className={"block text-sm text-gray-500"}>Informe o número do documento</span>
         <div className="flex">
           <InputMask
-            {...register("document", { required: true })}
+            {...register("document_number", { required: true })}
             required
             id="document"
             mask={documentType === "cpf" ? "999.999.999-99" : "99.999.999/9999-99"}
             type="text"
             alwaysShowMask={false}
-            className={`mt-1 block text-input w-full md:w-auto min-w-[300px] ${errors.document && `error`}`}
+            className={`mt-1 block text-input w-full md:w-auto min-w-[300px] ${errors.document_number && `error`}`}
           />
         </div>
       </div>
