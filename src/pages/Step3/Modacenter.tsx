@@ -12,6 +12,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Lottie from "react-lottie";
 import { useNavigate } from "react-router-dom";
 import { checkCompanyCodeAvailability } from "./helpers";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 interface FormValues {
   code: string;
@@ -24,10 +26,22 @@ const Step3Modacenter: FC = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
-  if (!emailValidatedToken) {
-    toastError("Email não validado, por favor valide seu email");
-    navigate("/");
-  }
+  const showConfirmationAlert = () => {
+    confirmAlert({
+      closeOnClickOutside: false,
+      closeOnEscape: false,
+      title: "Parabéns!",
+      message: "Seu catálogo foi criado com sucesso! Agora você pode acessar o painel administrativo e começar a cadastrar seus produtos.",
+      buttons: [
+        {
+          label: "Vamos lá!",
+          onClick: () => {
+            window.location.href = process.env.NODE_ENV === "development" ? "http://localhost:3000/" : "https://painelcatalogo.modacentersantacruz.com.br";
+          },
+        },
+      ],
+    });
+  };
 
   const {
     handleSubmit,
@@ -64,15 +78,19 @@ const Step3Modacenter: FC = () => {
         email: confirmationEmail,
         code: data.code,
       });
-      const login = await Api.post(`/user/login`, {
+      const response = await Api.post(`/user/login`, {
         username: confirmationEmail,
         password: companyFormData.admin_password,
       });
-      console.log(login, "login response");
-      console.log("login.data.token", login.data.token);
+      localStorage.setItem("user_token", response.data.token);
+      localStorage.setItem("user_id", response.data.userId);
+      localStorage.setItem("user_name", response.data.userName);
+      localStorage.setItem("user_role", response.data.userRole);
+      localStorage.setItem("company_code", response.data.company_code);
+
       dispatch(setFormData({ key: "code", value: data.code }));
       setLoading(false);
-      navigate("/fim-modacenter");
+      showConfirmationAlert();
     } catch (error) {
       setLoading(false);
       return toastError(error);

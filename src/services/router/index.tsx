@@ -38,10 +38,10 @@ const router = createBrowserRouter([
     path: "/passo-3-vendemoda",
     element: <Step3Vendemoda />,
   },
-  {
-    path: "/fim-modacenter",
-    element: <Step4Modacenter />,
-  },
+  // {
+  //   path: "/fim-modacenter",
+  //   element: <Step4Modacenter />,
+  // },
   {
     path: "/fim-vendemoda",
     element: <Step4Vendemoda />,
