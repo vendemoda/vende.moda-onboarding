@@ -1,17 +1,17 @@
-import ProgressIndicator from "@/components/ProgressIndicator";
-import { useWindowSize } from "@/hooks/useWindowSize";
 import storeAnimation from "@/assets/store.json";
-import { FC, useEffect, useState } from "react";
-import Lottie from "react-lottie";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { checkCompanyCodeAvailability } from "./helpers";
-import { toastError } from "@/helpers/functions";
-import Api from "@/services/Api";
-import { setFormData } from "@/services/redux/reducers/app";
+import VendemodaFooter from "@/components/Footers/Vendemoda";
 import VendemodaHeader from "@/components/Headers/Vendemoda";
+import ProgressIndicator from "@/components/ProgressIndicator";
+import { toastError } from "@/helpers/functions";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { setFormData } from "@/services/redux/reducers/app";
 import axios from "axios";
+import { FC, useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Lottie from "react-lottie";
+import { useNavigate } from "react-router-dom";
+import { checkCompanyCodeAvailability } from "./helpers";
 
 interface FormValues {
   code: string;
@@ -19,7 +19,7 @@ interface FormValues {
 
 const Step3Vendemoda: FC = () => {
   const { width } = useWindowSize();
-  const { companyFormData, modacenterAddressData } = useAppSelector((state) => state.app);
+  const { companyFormData, modacenterAddressData, emailValidatedToken } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -32,8 +32,12 @@ const Step3Vendemoda: FC = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  if (!emailValidatedToken) {
+    toastError("Email não validado, por favor valide seu email");
+    navigate("/");
+  }
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    console.log({ ...modacenterAddressData, ...companyFormData, ...data }, "daaata final");
     setLoading(true);
     clearErrors();
     if (!/^[a-zA-Z0-9]+$/.test(data.code)) {
@@ -76,7 +80,7 @@ const Step3Vendemoda: FC = () => {
   }, [companyFormData]);
 
   return (
-    <div>
+    <div className="h-screen flex flex-col justify-between">
       <VendemodaHeader />
       <div className="my-10">
         <ProgressIndicator step={72} color={"#0F299F"} />
@@ -119,6 +123,7 @@ const Step3Vendemoda: FC = () => {
           )}
         </div>
       </div>
+      <VendemodaFooter />
     </div>
   );
 };

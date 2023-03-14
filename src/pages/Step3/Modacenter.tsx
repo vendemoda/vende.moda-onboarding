@@ -1,16 +1,17 @@
+import storeAnimation from "@/assets/store.json";
+import ModacenterFooter from "@/components/Footers/Modacenter";
 import ModacenterHeader from "@/components/Headers/Modacenter";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import { useWindowSize } from "@/hooks/useWindowSize";
-import storeAnimation from "@/assets/store.json";
-import { FC, useEffect, useState } from "react";
-import Lottie from "react-lottie";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { checkCompanyCodeAvailability } from "./helpers";
 import { toastError } from "@/helpers/functions";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { useWindowSize } from "@/hooks/useWindowSize";
 import Api from "@/services/Api";
 import { setFormData } from "@/services/redux/reducers/app";
+import { FC, useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import Lottie from "react-lottie";
+import { useNavigate } from "react-router-dom";
+import { checkCompanyCodeAvailability } from "./helpers";
 
 interface FormValues {
   code: string;
@@ -18,10 +19,15 @@ interface FormValues {
 
 const Step3Modacenter: FC = () => {
   const { width } = useWindowSize();
-  const { companyFormData, modacenterAddressData } = useAppSelector((state) => state.app);
+  const { companyFormData, modacenterAddressData, confirmationEmail, emailValidatedToken } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
+
+  if (!emailValidatedToken) {
+    toastError("Email não validado, por favor valide seu email");
+    navigate("/");
+  }
 
   const {
     handleSubmit,
@@ -51,13 +57,19 @@ const Step3Modacenter: FC = () => {
     } catch (error) {
       return toastError(error);
     }
-
     try {
       await Api.post(`/company`, {
         ...companyFormData,
         ...modacenterAddressData,
+        email: confirmationEmail,
         code: data.code,
       });
+      const login = await Api.post(`/user/login`, {
+        username: confirmationEmail,
+        password: companyFormData.admin_password,
+      });
+      console.log(login, "login response");
+      console.log("login.data.token", login.data.token);
       dispatch(setFormData({ key: "code", value: data.code }));
       setLoading(false);
       navigate("/fim-modacenter");
@@ -74,7 +86,7 @@ const Step3Modacenter: FC = () => {
   }, [companyFormData]);
 
   return (
-    <div>
+    <div className="h-screen flex flex-col justify-between">
       <ModacenterHeader />
       <div className="my-10">
         <ProgressIndicator step={72} />
@@ -117,6 +129,7 @@ const Step3Modacenter: FC = () => {
           )}
         </div>
       </div>
+      <ModacenterFooter />
     </div>
   );
 };

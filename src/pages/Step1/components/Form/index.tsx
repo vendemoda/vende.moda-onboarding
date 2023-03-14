@@ -2,7 +2,7 @@ import Checkbox from "@/components/Checkbox";
 import { sendCompanyData, toastError, validatePhoneText } from "@/helpers/functions";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { FormData, setAcceptedTerms, setFormData, setPrivacyPolicyModalOpen, setTermsOfUseModalOpen } from "@/services/redux/reducers/app";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ const GeneralDataForm: FC = () => {
   const { termsAccepted } = useAppSelector((state) => state.app);
   const [documentType, setDocumentType] = useState("cpf");
   const dispatch = useAppDispatch();
+  const { emailValidatedToken } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -36,13 +37,21 @@ const GeneralDataForm: FC = () => {
       return toastError("Você precisa aceitar os termos de uso");
     }
     try {
+      console.log(emailValidatedToken, "emailValidatedToken");
       dispatch(setFormData(data));
-      await sendCompanyData({ ...data });
+      await sendCompanyData({ ...data }, emailValidatedToken);
       navigate("/passo-2");
     } catch (error) {
       toastError(error);
     }
   };
+
+  useEffect(() => {
+    if (!emailValidatedToken) {
+      toastError("Email não validado, por favor valide seu email");
+      navigate("/");
+    }
+  }, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -109,17 +118,6 @@ const GeneralDataForm: FC = () => {
         />
         <span className={"mt-4 text-red-500"}>{errors.phone?.message}</span>
       </div>
-      <div className={"mt-4"}>
-        <label htmlFor="email">Email</label>
-        <span className={"block text-sm text-gray-500"}>Esta será seu email de acesso ao painel.</span>
-        <input
-          {...register("email", { required: true })}
-          type="email"
-          id="email"
-          className={`mt-1 block text-input w-full md:w-auto min-w-[300px] ${errors.email && `error`}`}
-        />
-      </div>
-
       <div className={"mt-4"}>
         <label htmlFor="password">Defina uma senha</label>
         <span className={"block text-sm text-gray-500"}>Esta será sua senha de acesso ao painel.</span>

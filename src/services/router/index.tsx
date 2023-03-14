@@ -1,3 +1,6 @@
+import { EmailSended } from "@/pages/EmailSended";
+import { EnterEmail } from "@/pages/EnterEmail";
+import { ReceivedToken } from "@/pages/ReceivedToken";
 import Step1 from "@/pages/Step1";
 import Step2 from "@/pages/Step2";
 import Step3Modacenter from "@/pages/Step3/Modacenter";
@@ -9,6 +12,18 @@ import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <EnterEmail />,
+  },
+  {
+    path: "/email-enviado",
+    element: <EmailSended />,
+  },
+  {
+    path: "/confirmar-email",
+    element: <ReceivedToken />,
+  },
+  {
+    path: "/passo-1",
     element: <Step1 />,
   },
   {
