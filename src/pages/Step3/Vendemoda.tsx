@@ -19,7 +19,7 @@ interface FormValues {
 
 const Step3Vendemoda: FC = () => {
   const { width } = useWindowSize();
-  const { companyFormData, modacenterAddressData, emailValidatedToken } = useAppSelector((state) => state.app);
+  const { companyFormData, confirmationEmail, modacenterAddressData, emailValidatedToken } = useAppSelector((state) => state.app);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -62,6 +62,7 @@ const Step3Vendemoda: FC = () => {
       await axios.post(`https://api.vende.moda/v1/company`, {
         ...companyFormData,
         ...modacenterAddressData,
+        email: confirmationEmail,
         code: data.code,
       });
       dispatch(setFormData({ key: "code", value: data.code }));
