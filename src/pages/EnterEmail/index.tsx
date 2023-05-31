@@ -14,6 +14,11 @@ export const EnterEmail = () => {
   const [email, setEmail] = useState("");
   const onSubmit = async () => {
     try {
+      if (/[A-Z]/.test(email)) {
+        toast('O email não pode conter letras maiúsculas. Coloque um email válido.');
+        return;
+      }
+
       const { data } = await Api.post("/leads/send_email_confirmation", { email });
       if (data?.alreadyValidated && data?.token) {
         dispatch(setEmailValidatedToken(data.token));
